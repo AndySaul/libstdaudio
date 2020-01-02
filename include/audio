@@ -9,7 +9,8 @@
 
 // TODO: this is a temporary measure until std::span becomes available
 #include "cpp/span.hpp"
-using namespace TCB_SPAN_NAMESPACE_NAME;
+template <typename ElementType, std::ptrdiff_t Extent = TCB_SPAN_NAMESPACE_NAME::dynamic_extent>
+using span = TCB_SPAN_NAMESPACE_NAME::span<ElementType, Extent>;
 
 #define _LIBSTDAUDIO_NAMESPACE std::experimental
 
@@ -21,6 +22,8 @@ using namespace TCB_SPAN_NAMESPACE_NAME;
 
 #ifdef __APPLE__
   #include <audio_backend/__coreaudio_backend.h>
+#elif defined(_WIN32)
+  #include <audio_backend/__wasapi_backend.h>
 #else
   #include <audio_backend/__null_backend.h>
 #endif // __APPLE__
